@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+#import "Tag.h"
+#import "Receipt.h"
+
 @interface LHLCoreDataStack : NSObject
 
 @property (nonatomic, strong) NSManagedObjectContext *context;

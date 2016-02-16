@@ -18,9 +18,29 @@
 
 + (instancetype)createAndSaveTagWithName:(NSString *)name inContext:(NSManagedObjectContext *)context {
     
+    
+    // check if it exists already
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tag"];
+    
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"tagName == %@", name];
+    
+    NSArray *existingTags = [context executeFetchRequest:fetchRequest error:NULL];
+    
+    if (existingTags.count > 0) {
+        
+        Tag *oldTag = [existingTags firstObject];
+        // modify old tag if needed
+        return oldTag;
+    }
+    
+    
+    
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Tag" inManagedObjectContext:context];
     
     Tag *newTag = [[Tag alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:context];
+    
+    newTag.tagName = name;
     
     [context save:nil];
     
